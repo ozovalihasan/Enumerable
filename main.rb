@@ -22,46 +22,30 @@ module Enumerable
     raise ArgumentError, "wrong number of arguments (given #{question[0].size}, expected 0..1)" if question[0].size > 1
   end
 
-  def my_all?(*question)
+  def all_any_none(question, arg1, arg2, *block)    
     multiple_argument_error?(question)
     my_each do |item|
       if question.size == 1
-        return false unless question[0] === item
-      elsif block_given?
-        return false unless yield(item)
+        return arg1 if (question[0] === item) == arg2
+      elsif !block[0].nil?
+        return arg1 if block[0].(item) == arg2
       elsif [nil, false].include? item
-        return false
+        return arg1
       end
     end
-    true
+    !arg1
   end
 
-  def my_any?(*question)
-    multiple_argument_error?(question)
-    my_each do |item|
-      if question.size == 1
-        return true if question[0] === item
-      elsif block_given?
-        return true if yield(item)
-      elsif ![nil, false].include? item
-        return true
-      end
-    end
-    false
+  def my_all?(*question, &block)
+    all_any_none(question, false, false, block)
   end
 
-  def my_none?(*question)
-    multiple_argument_error?(question)
-    my_each do |item|
-      if question.size == 1
-        return false if question[0] === item
-      elsif block_given?
-        return false if yield(item)
-      elsif ![nil, false].include? item
-        return false
-      end
-    end
-    true
+  def my_any?(*question, &block)
+    all_any_none(question, true, true, block)
+  end
+  
+  def my_none?(*question, &block)
+    all_any_none(question, false, true, block)
   end
 
   def my_count(*question)
@@ -102,19 +86,12 @@ module Enumerable
   end
 end
 
-a = [2, 3, 4]
-p a.pop
-p a
-p 3.send(:<<, 2)
-p (5...10).my_inject(:*)
-
 # rubocop:enable Style/CaseEquality
-p (1..4).my_map { |i| i*i }    
-p (1..4).my_map  
-p (5..10).my_inject { |sum, n| sum + n }            #=> 45
 
-hash = Hash.new
-%w(cat dog wombat).my_each_with_index { |item, index|
-  hash[item] = index
-}
-p hash
+def multiply_els(arr) #=> 40
+  arr.my_inject(:*)
+end
+
+p multiply_els([2,4,5])
+proc = Proc.new { |n| puts "#{n}!" }
+p (1..4).my_map { "cat"  }
