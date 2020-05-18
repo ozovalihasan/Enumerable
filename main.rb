@@ -22,13 +22,13 @@ module Enumerable
     raise ArgumentError, "wrong number of arguments (given #{question[0].size}, expected 0..1)" if question[0].size > 1
   end
 
-  def all_any_none(question, arg1, arg2, *block)    
+  def all_any_none(question, arg1, arg2, *block)
     multiple_argument_error?(question)
     my_each do |item|
       if question.size == 1
         return arg1 if (question[0] === item) == arg2
       elsif !block[0].nil?
-        return arg1 if block[0].(item) == arg2
+        return arg1 if block[0].call(item) == arg2
       elsif [nil, false].include? item
         return arg1
       end
@@ -43,7 +43,7 @@ module Enumerable
   def my_any?(*question, &block)
     all_any_none(question, true, true, block)
   end
-  
+
   def my_none?(*question, &block)
     all_any_none(question, false, true, block)
   end
@@ -63,12 +63,13 @@ module Enumerable
     result
   end
 
-  def my_map
-    return enum_for(__method__) unless block_given?
+  def my_map(*proc)
+    multiple_argument_error?(proc)
+    return enum_for(__method__) if !block_given? && proc[0].nil?
 
     result = []
     my_each do |item|
-      result << yield(item)
+      result << (block_given? ? yield(item) : proc[0].call(item))
     end
     result
   end
@@ -93,5 +94,5 @@ def multiply_els(arr) #=> 40
 end
 
 p multiply_els([2,4,5])
-proc = Proc.new { |n| puts "#{n}!" }
-p (1..4).my_map { "cat"  }
+proc = Proc.new { |n| n*2 }
+p ["cat"].my_map(proc)
