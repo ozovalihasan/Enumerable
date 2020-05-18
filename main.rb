@@ -89,10 +89,10 @@ end
 
 # rubocop:enable Style/CaseEquality
 
-def multiply_els(arr) #=> 40
+def multiply_els(arr)
   arr.my_inject(:*)
 end
 
-p multiply_els([2,4,5])
-proc = Proc.new { |n| n*2 }
-p ["cat"].my_map(proc)
+p multiply_els([2, 4, 5])
+proc = proc { |n| n * 2 }
+p %w[cat dog].my_map(proc)
