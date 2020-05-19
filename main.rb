@@ -71,7 +71,7 @@ module Enumerable
 
     result = []
     my_each do |item|
-      result << (block_given? ? yield(item) : proc[0].call(item))
+      result << (!proc[0].nil? ? proc[0].call(item) : yield(item))
     end
     result
   end
@@ -96,8 +96,8 @@ def multiply_els(arr)
 end
 
 p multiply_els([2, 4, 5])
-proc = proc { |n| n * 2 }
-p %w[cat dog].my_map(proc)
+proc = proc { |n| n * 3 }
+p [2, 4, 5].my_map(proc) { |i| i * i }
 
 # arr = [ true ]
 # arr2 = %w[ant bear cat]
