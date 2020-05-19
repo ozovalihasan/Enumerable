@@ -94,20 +94,3 @@ end
 def multiply_els(arr)
   arr.my_inject(:*)
 end
-
-p multiply_els([2, 4, 5])
-proc = proc { |n| n * 3 }
-p [2, 4, 5].my_map(proc) { |i| i * i }
-
-# arr = [ true ]
-# arr2 = %w[ant bear cat]
-# words = ["none","any","all"]
-# var = "none"
-# words.each do |var|
-# p eval("arr2.my_#{var}? { |word| word.length >= 3 } == arr2.#{var}? { |word| word.length >= 3 }")
-# p eval("arr2.my_#{var}? { |word| word.length >= 4 } == arr2.#{var}? { |word| word.length >= 4 }")
-# p eval("arr2.my_#{var}?(/d/)== arr2.#{var}?(/d/)")
-# p eval("arr.my_#{var}?(Integer)== arr.#{var}?(Integer)")
-# p eval("arr.my_#{var}? == arr.#{var}?")
-# p eval("[].my_#{var}? == [].#{var}?")
-# end
