@@ -12,6 +12,10 @@ my_each, my_each_with_index, my_select, my_all?, my_any?, my_none?, my_count, my
 
 To get a local copy up and running follow these simple example steps:
 
+### Live Demo
+
+[![Run on Repl.it](https://repl.it/badge/github/ozovalihasan/enumerable)](https://repl.it/github/ozovalihasan/enumerable)
+
 ### Prerequisites
 
 - Text Editor (VSCode is suggested.)
